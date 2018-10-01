@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CharacterMove : MonoBehaviour {
 
+    //Options
+    public GameObject Options;
+
     //CameraPoint
-    public GameObject Camera;
+    public GameObject CameraPoint;
 
-    //true = PC, false = NPC
-    public bool AIEnable = false;
-
-    //ture = mouse move enable, false = mouse move disable
-    public bool MouseMoveEnable = true;
+    //Navmeshagent
+    NavMeshAgent Agent;
 
     //Input properties
     float Horizontal = 0f;
@@ -20,7 +21,7 @@ public class CharacterMove : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        Agent = GetComponent<NavMeshAgent>();
 	}
 	
 	// Update is called once per frame
@@ -41,7 +42,7 @@ public class CharacterMove : MonoBehaviour {
     //Move PC with keyboard
     void MovePCWithKeyboard()
     {
-        if (AIEnable || MouseMoveEnable)
+        if (Options.GetComponent<Options>().AIEnable || Options.GetComponent<Options>().MouseMoveEnable)
             return;
 
         //키보드 이동 시 forward 벡터를 카메라의 forward 벡터와 일치시킨다
@@ -50,7 +51,7 @@ public class CharacterMove : MonoBehaviour {
         //    transform.forward = new Vector3(Camera.transform.forward.x, 0f, Camera.transform.forward.z);
         if (Horizontal != 0f || Vertical != 0f)
         {
-            Quaternion NewDir = Quaternion.Lerp(transform.rotation, new Quaternion(0f, Camera.transform.rotation.y, 0f, Camera.transform.rotation.w), 0.3f);
+            Quaternion NewDir = Quaternion.Lerp(transform.rotation, new Quaternion(0f, CameraPoint.transform.rotation.y, 0f, CameraPoint.transform.rotation.w), 0.3f);
             transform.rotation = NewDir;
         }
 
@@ -61,15 +62,28 @@ public class CharacterMove : MonoBehaviour {
     //Move PC with mouse
     void MovePCWithMouse()
     {
-        if (AIEnable || !MouseMoveEnable)
+        if (Options.GetComponent<Options>().AIEnable || !Options.GetComponent<Options>().MouseMoveEnable)
             return;
+
+        Vector3 ClickedPoint;
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            RaycastHit Hit;
+            Ray Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if(Physics.Raycast(Ray, out Hit))
+                ClickedPoint = Hit.point;
+
+            Agent.destination = Hit.point;
+        }
     }
 
     //NPC 이동
     //Move NPC
     void MoveNPC()
     {
-        if (!AIEnable)
+        if (!Options.GetComponent<Options>().AIEnable)
             return;
     }
 }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -112,7 +112,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 9640cfa50f702f248aa53a52281b6df6, type: 2}
 --- !u!1 &3702294
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &3702295
 MeshCollider:
@@ -160,7 +160,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 22784c2cbbe8b854b9e55e23aa9b814f, type: 2}
+  - {fileID: 2100000, guid: ff4f5a68bb6c96e439eea90f804fe7f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -719,7 +719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402aeab12530f8c46b0af8da85191c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MouseLock: 0
+  Options: {fileID: 1452913940}
 --- !u!4 &447048391
 Transform:
   m_ObjectHideFlags: 0
@@ -1027,6 +1027,7 @@ GameObject:
   - component: {fileID: 768115201}
   - component: {fileID: 768115200}
   - component: {fileID: 768115199}
+  - component: {fileID: 768115202}
   m_Layer: 0
   m_Name: Knight Warrior
   m_TagString: Player
@@ -1046,9 +1047,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a612cb91f55c8a4cbee6ba38d6ef479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 447048389}
-  AIEnable: 0
-  MouseMoveEnable: 0
+  Options: {fileID: 1452913940}
+  CameraPoint: {fileID: 0}
 --- !u!95 &768115200
 Animator:
   serializedVersion: 3
@@ -1086,6 +1086,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &768115202
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 768115198}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 8
+  m_Acceleration: 20
+  avoidancePriority: 50
+  m_AngularSpeed: 300
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &795912211
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,7 +1830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AIEnable: 0
-  MouseMoveEnable: 0
+  MouseMoveEnable: 1
   MouseLock: 0
 --- !u!4 &1452913942
 Transform:

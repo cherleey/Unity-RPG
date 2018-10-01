@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour {
 
+    //Options
+    public GameObject Options;
+
     //Playable Characters
     GameObject[] Players;
 
     //Players에서 카메라가 따라다닐 캐릭터의 GameObject가 있는 인덱스
     //Index of selected PC
     int CameraFollowIndex;
-
-    //ture = 마우스로 카메라 회전, false = 키보드로 카메라 회전
-    //ture = rotate camera with mouse, false = rotate camera with keyboard
-    public bool MouseLock = false;
 
     //Input Properties
     float MouseX = 0f;
@@ -73,7 +72,7 @@ public class CameraMove : MonoBehaviour {
     //Rotate camera with mouse
     void RotateCameraWithMouse()
     {
-        if (!MouseLock)
+        if (!Options.GetComponent<Options>().MouseLock)
             return;
 
         Yaw += MouseX * RotateSpeed;
@@ -86,7 +85,7 @@ public class CameraMove : MonoBehaviour {
     //Rotate camera with keyboard
     void RoateCameraWithKeyboard()
     {
-        if (MouseLock)
+        if (Options.GetComponent<Options>().MouseLock)
             return;
 
         Yaw += Vertical * RotateSpeed;
