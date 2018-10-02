@@ -14,14 +14,25 @@ public class CharacterMove : MonoBehaviour {
     //Navmeshagent
     NavMeshAgent Agent;
 
+    //Animator
+    Animator Anim;
+
     //Input properties
     float Horizontal = 0f;
     float Vertical = 0f;
     float Speed = 0.2f;
 
-	// Use this for initialization
-	void Start () {
+    //true -> PC, false -> NPC
+    public bool AIEnable;
+
+    //NPC의 타겟 캐릭터
+    //Target character for NPC
+    GameObject NPCTarget = null;
+
+    // Use this for initialization
+    void Start () {
         Agent = GetComponent<NavMeshAgent>();
+        Anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -30,7 +41,8 @@ public class CharacterMove : MonoBehaviour {
         MovePCWithKeyboard();
         MovePCWithMouse();
         MoveNPC();
-	}
+        AnimationControl();
+    }
 
     void Inputs()
     {
@@ -42,7 +54,7 @@ public class CharacterMove : MonoBehaviour {
     //Move PC with keyboard
     void MovePCWithKeyboard()
     {
-        if (Options.GetComponent<Options>().AIEnable || Options.GetComponent<Options>().MouseMoveEnable)
+        if (AIEnable || Options.GetComponent<Options>().MouseMoveEnable)
             return;
 
         //키보드 이동 시 forward 벡터를 카메라의 forward 벡터와 일치시킨다
@@ -62,7 +74,7 @@ public class CharacterMove : MonoBehaviour {
     //Move PC with mouse
     void MovePCWithMouse()
     {
-        if (Options.GetComponent<Options>().AIEnable || !Options.GetComponent<Options>().MouseMoveEnable)
+        if (AIEnable || !Options.GetComponent<Options>().MouseMoveEnable)
             return;
 
         Vector3 ClickedPoint;
@@ -83,7 +95,38 @@ public class CharacterMove : MonoBehaviour {
     //Move NPC
     void MoveNPC()
     {
-        if (!Options.GetComponent<Options>().AIEnable)
+        if (!AIEnable)
             return;
+    }
+
+    //NPC AI
+    void NPCAI()
+    {
+        if (!AIEnable)
+            return;
+
+        if(NPCTarget != null)
+        {
+            Agent.destination = NPCTarget.transform.position;
+        }
+    }
+
+    //애니메이션 전환
+    //Change animation
+    void AnimationControl()
+    {
+        //Run
+        if (Agent.velocity.magnitude != 0)
+            Anim.SetBool("Moving", true);
+        else
+            Anim.SetBool("Moving", false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(NPCTarget == null && other.tag == "Player")
+            NPCTarget = other.gameObject;
+
+
     }
 }
